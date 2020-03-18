@@ -2,13 +2,15 @@
   <div :class="[`nav-theme-${navTheme}`, `nav-layout-${navLayout}`]">
     <a-layout id="components-layout-demo-side" style="min-height: 100vh">
       <a-layout-sider
+        v-if="navLayout === 'left'"
+        :theme="navTheme"
+        :trigger="null"
         collapsible
         v-model="collapsed"
-        :theme="navTheme"
-        v-if="navLayout === 'left'"
+        width="200px"
       >
         <div class="logo">Vue Ant Design</div>
-        <SiderMenu />
+        <SiderMenu :theme="navTheme" />
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
@@ -62,9 +64,19 @@ export default {
 <style lang="less" scoped>
 .logo {
   line-height: 64px;
-  color: #fff;
   text-align: center;
 }
+.nav-theme-dark {
+  .logo {
+    color: #fff;
+  }
+}
+.nav-theme-light {
+  .logo {
+    color: #000;
+  }
+}
+
 .trigger {
   padding: 0 20px;
   line-height: 64px;

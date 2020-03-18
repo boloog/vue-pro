@@ -19,6 +19,10 @@ const routes = [
       {
         path: "/dashboard",
         name: "dashboard",
+        meta: {
+          title: "仪表盘",
+          icon: "dashboard"
+        },
         component: {
           render: h => h("router-view")
         },
@@ -26,6 +30,9 @@ const routes = [
           {
             path: "/dashboard/analysis",
             name: "analysis",
+            meta: {
+              title: "分析页"
+            },
             component: () =>
               import(
                 /* webpackChunkName: "user" */ "../views/Dashboard/Analysis"
@@ -37,19 +44,34 @@ const routes = [
   },
   {
     path: "/form",
-    component: {
-      render: h => h("router-view")
+    name: "form",
+    component: () =>
+      import(/* webpackChunkName: "layouts" */ "../layouts/BaseLayout"),
+
+    // component: {
+    //   render: h => h("router-view")
+    // },
+    meta: {
+      title: "表单",
+      icon: "form"
     },
     children: [
       {
         path: "/form/basic-form",
         name: "basicform",
+        meta: {
+          title: "基础表单"
+        },
         component: () =>
           import(/* webpackChunkName: "user" */ "../views/Forms/BasicForm")
       },
       {
         path: "/form/step-form",
         name: "stepform",
+        hideChildrenInMenu: true, // 处理子级菜单
+        meta: {
+          title: "分布表单"
+        },
         component: () =>
           import(/* webpackChunkName: "user" */ "../views/Forms/StepForm"),
         children: [
@@ -87,6 +109,7 @@ const routes = [
   },
   {
     path: "/user",
+    hideInMenu: true,
     // component: {
     //   render: h => h("router-view")
     // },
@@ -114,6 +137,7 @@ const routes = [
   {
     path: "*",
     name: "404",
+    hideInMenu: true,
     component: NotFound
   }
 ];
