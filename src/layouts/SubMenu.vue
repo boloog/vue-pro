@@ -9,7 +9,7 @@
     <template v-for="item in props.menuInfo.children">
       <a-menu-item
         v-if="!item.children"
-        :key="item.key"
+        :key="item.path"
         @click="
           () =>
             parent.$router.push({ path: item.path, query: parent.$route.query })

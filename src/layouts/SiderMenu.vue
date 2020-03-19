@@ -11,7 +11,7 @@
         <a-menu-item
           v-if="!item.children"
           :key="item.path"
-          @click="$router.push({ path: item.path, query: $route.query })"
+          @click="() => $router.push({ path: item.path, query: $route.query })"
         >
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
@@ -44,7 +44,7 @@ export default {
     };
   },
   methods: {
-    getMenuData(routes = [], parentKeys = [], selectedKey = []) {
+    getMenuData(routes = [], parentKeys = [], selectedKey) {
       const menuData = [];
       // 处理当前 routes 里面的数据
       routes.forEach(item => {
@@ -85,8 +85,6 @@ export default {
   },
   watch: {
     "$route.path": function(val) {
-      console.log("---", val);
-
       this.selectedKeys = this.selectedKeysMap[val];
       // 菜单是关闭状态 不打开菜单
       this.openKeys = this.collapsed ? [] : this.openKeysMap[val];

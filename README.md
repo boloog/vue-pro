@@ -40,7 +40,19 @@ yarn run test:unit
 
 - https://www.antdv.com/docs/vue/introduce-cn/
 
-#### 版本太高 "ant-design-vue": "^1.4.12" 未解决
+### 解决 message: "Navigating to current location ("/home") is not allowed",警告的问题 多次点击同一路由报错 在路由配置一添加代码
+
+```
+/**
+ * 重写路由的push方法--->这个是vue-cli4.x以上的坑，不然的话，你是跳转不了的
+ */
+const routerPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error);
+};
+```
+
+### 版本问题 "ant-design-vue": "^1.4.12" 已解决
 
 - [VueTypes warn]: oneOfType - value "" should be of type "String or Number"
 - VueTypes warn]: arrayOf - value must be an array of "String"
