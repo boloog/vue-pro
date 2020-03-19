@@ -15,6 +15,7 @@
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
           <a-icon
+            v-auth="['admin']"
             :type="collapsed ? 'menu-unfold' : 'menu-fold'"
             @click="collapsed = !collapsed"
             class="trigger"
@@ -28,7 +29,10 @@
           <Footer />
         </a-layout-footer>
       </a-layout>
-      <setting-drawer />
+      <Authorized :authority="['admin']">
+        <!-- 有权限才会显示主题设置 -->
+        <setting-drawer />
+      </Authorized>
     </a-layout>
   </div>
 </template>
