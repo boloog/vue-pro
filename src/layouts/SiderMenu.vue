@@ -24,6 +24,7 @@
 
 <script>
 import SubMenu from "./SubMenu";
+import { check } from "../utils/auth";
 export default {
   props: {
     theme: {
@@ -46,8 +47,12 @@ export default {
   methods: {
     getMenuData(routes = [], parentKeys = [], selectedKey) {
       const menuData = [];
-      // 处理当前 routes 里面的数据
-      routes.forEach(item => {
+      // 处理有权限的 路由的显示 处理当前 routes 里面的数据
+      for (const item of routes) {
+        // 判断当前路由是否有 meta / 有权限 / 校验权限不通过
+        if (item.meta && item.meta.authority && !check(item.meta.authority)) {
+          break;
+        }
         // 有 name  && 当前目录为不显示
         if (item.name && !item.hideInMenu) {
           // 设置 选择的 key
@@ -79,7 +84,7 @@ export default {
             ...this.getMenuData(item.children, [...parentKeys, item.path])
           );
         }
-      });
+      }
       return menuData;
     }
   },
