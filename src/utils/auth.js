@@ -1,6 +1,6 @@
-// 返回权限 admin user
+// 返回权限 admin user guest
 export function getCurrentAuthority() {
-  return ["user"];
+  return ["admin"];
 }
 
 // 权限校验
