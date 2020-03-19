@@ -1,6 +1,6 @@
 // https://www.antdv.com/docs/vue/introduce-cn/
 module.exports = {
-  presets: ["@vue/cli-plugin-babel/preset"],
+  presets: ["@vue/cli-plugin-babel/preset", "@vue/babel-preset-jsx"],
   plugins: [
     [
       "import",
