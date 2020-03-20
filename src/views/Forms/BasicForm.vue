@@ -1,5 +1,5 @@
 <template>
-  <a-form :layout="formLayout">
+  <a-form :layout="formLayout" :form="form">
     <a-form-item
       label="Form Layout"
       :label-col="formItemLayout.labelCol"
@@ -24,17 +24,30 @@
       label="Field A"
       :label-col="formItemLayout.labelCol"
       :wrapper-col="formItemLayout.wrapperCol"
-      :validateStatus="filedStatus"
-      :help="filedHelp"
     >
-      <a-input v-model="fieldA" placeholder="input placeholder" />
+      <a-input
+        v-decorator="[
+          'fieldA',
+          {
+            initiaValue: fieldA,
+            rules: [
+              {
+                required: true,
+                min: 6,
+                message: '必须大于5个字符'
+              }
+            ]
+          }
+        ]"
+        placeholder="input placeholder"
+      />
     </a-form-item>
     <a-form-item
       label="Field B"
       :label-col="formItemLayout.labelCol"
       :wrapper-col="formItemLayout.wrapperCol"
     >
-      <a-input v-model="fieldB" placeholder="input placeholder" />
+      <a-input v-decorator="['fieldB']" placeholder="input placeholder" />
     </a-form-item>
     <a-form-item :wrapper-col="buttonItemLayout.wrapperCol">
       <a-button type="primary" @click="handelSubmit">
@@ -47,24 +60,20 @@
 <script>
 export default {
   data() {
+    this.form = this.$form.createForm(this);
     return {
       formLayout: "horizontal",
-      fieldA: "",
-      fieldB: "",
-      filedStatus: "",
-      filedHelp: ""
+      fieldA: "abc",
+      fieldB: ""
     };
   },
-  watch: {
-    fieldA(val) {
-      if (val.length <= 5) {
-        this.filedStatus = "error";
-        this.filedHelp = "必须大于5个字符";
-      } else {
-        this.filedStatus = "";
-        this.filedHelp = "";
-      }
-    }
+  mounted() {
+    // 动态改变数据
+    setTimeout(() => {
+      this.form.setFieldsValue({
+        fieldA: "hello"
+      });
+    }, 3000);
   },
   computed: {
     formItemLayout() {
@@ -86,13 +95,15 @@ export default {
     }
   },
   methods: {
+    // 提交数据
     handelSubmit() {
-      if (this.fieldA.length <= 5) {
-        this.filedStatus = "error";
-        this.filedHelp = "必须大于5个字符";
-      } else {
-        console.log("牛逼", this.fieldA);
-      }
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("提交的数据", values);
+          // 把数据同步给 fielA/fielB
+          Object.assign(this, values);
+        }
+      });
     },
     handleFormLayoutChange(e) {
       this.formLayout = e.target.value;
